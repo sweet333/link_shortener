@@ -1,0 +1,35 @@
+services:
+  psql:
+    image: 'postgres:14.9-alpine3.18'
+    container_name: 'psql'
+    environment:
+      - 'POSTGRES_DB=link-shortener'
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=123456'
+    ports:
+      - '5432:5432'
+    expose:
+      - '5432'
+  link-shortener-backend:
+    build: './backend'
+    container_name: 'link-shortener-backend'
+    ports:
+      - '8080:8080'
+    depends_on:
+      - 'psql'
+    environment:
+      - 'SERVER_PORT=8080'
+      - 'LINKSHORTENER_ADDRESS=http://localhost:8080/'
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres'
+      - 'SPRING_DATASOURCE_USERNAME=compose-postgres'
+      - 'SPRING_DATASOURCE_PASSWORD=compose-postgres'
+      - 'SPRING_JPA_HIBERNATE_DDL_AUTO=update'
+  link-shortener-frondend:
+    build: './frontend'
+    container_name: 'link-shortener-frondend'
+    depends_on:
+      - 'link-shortener-backend'
+    ports:
+      - '8501:8501'
+    environment:
+      - 'BACKEND_URL=http://localhost:8080/'
