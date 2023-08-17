@@ -18,7 +18,6 @@ hide_streamlit_style = """
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 
-#backend_url = os.environ.get('BACKEND_URL')
 backend_url = "http://localhost:8080"
 
 def is_url(url):

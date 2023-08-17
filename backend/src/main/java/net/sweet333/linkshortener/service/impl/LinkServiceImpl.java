@@ -18,7 +18,7 @@ public class LinkServiceImpl implements LinkService {
     private final String address;
 
     public LinkServiceImpl(LinkRepository linkRepository,
-                           @Value("${link.address}") String address) {
+                           @Value("${linkshortener.address}") String address) {
         this.linkRepository = linkRepository;
         this.address = address;
     }
